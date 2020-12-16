@@ -1,0 +1,26 @@
+{
+    "cmd": [
+        [
+            "start",
+            "0, 1, 2, 3"
+        ],
+        [
+            "stop",
+            "2, 3, 4, 5"
+        ],
+		[
+            "send some shit",
+            "some shit"
+        ]
+		,
+		[
+            "send some shit2",
+            "some shit2"
+        ]
+		,
+		[
+            "send some shit3",
+            "some shit3"
+        ]
+    ]
+}
