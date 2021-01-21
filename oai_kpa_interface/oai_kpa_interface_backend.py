@@ -1,13 +1,12 @@
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import QWidget, QApplication, QTableWidgetItem
-import utils
-import sys
+from PyQt5.QtWidgets import QWidget, QTableWidgetItem
 import threading
 import time
-import oai_kpa_interface_gui
-import oai_kpa_interface
 import json
 import os.path
+from . import oai_kpa_interface_gui
+from . import utils
+from . import oai_kpa_interface
 
 
 class OAI_KPA_Interface_controller(QWidget, oai_kpa_interface_gui.Ui_Form):
@@ -114,7 +113,7 @@ class OAI_KPA_Interface_controller(QWidget, oai_kpa_interface_gui.Ui_Form):
                 with open(self.config_file_name, 'w') as file:
                     file.write(config_obj.to_json())
 
-                if self.interface.connect() == 0:
+                if self.interface.connect() == 1:
                     self.uart_connect_button.setText("Disconnect")
                     self.read_continuously_flag = True
                     self.ai_read_thread = threading.Thread(name='ai_read', target=self.__read_routine, daemon=True)
@@ -123,6 +122,8 @@ class OAI_KPA_Interface_controller(QWidget, oai_kpa_interface_gui.Ui_Form):
                     if not self.ai_read_thread.is_alive():
                         self.read_continuously_flag = False
                         print("some error with thread")
+                else:
+                    self.uart_connect_button.setText("Error connection")
 
             else:
                 self.uart_connect_button.setText("Connect")
@@ -211,9 +212,3 @@ class OAI_KPA_Interface_controller(QWidget, oai_kpa_interface_gui.Ui_Form):
         self.log_browser.append("tx[" + str(self.uart.tx_packet_counter) + "] -> " + self.sender().cmd)
         self.uart.tx_packet_counter += 1
 
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = OAI_KPA_Interface_controller()
-    ex.show()
-    sys.exit(app.exec_())

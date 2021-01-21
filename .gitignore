@@ -1,5 +1,8 @@
 .idea
 dist
+commands.json
+config.json
 tests
 poetry.lock
+oai_kpa_interface/oai_kpa_interface_gui(reserve) (2).ui
 __pycache__
